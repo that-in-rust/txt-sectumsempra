@@ -40,7 +40,6 @@
 - [x] Empty file handling
 - [x] Invalid chunk size handling
 - [x] Missing chunks validation
-- [x] Performance benchmark (1GB/30s) 
 
 ## Changes Log
 1. [2024-01-20] Initial implementation completed
