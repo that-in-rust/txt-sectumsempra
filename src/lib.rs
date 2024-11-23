@@ -13,15 +13,15 @@ const BUFFER_SIZE: usize = 8192; // 8KB buffer
 pub struct Chunker;
 
 impl Chunker {
-    pub fn split_file(path: &Path, size_mb: u64) -> Result<Vec<PathBuf>> {
+    pub fn split_file(path: &Path, size_mb: f64) -> Result<Vec<PathBuf>> {
         // Validate inputs
-        if size_mb == 0 {
+        if size_mb <= 0.0 {
             return Err(ChunkError::InvalidInput("Chunk size must be greater than 0"));
         }
 
         let input_file = File::open(path)?;
         let file_size = input_file.metadata()?.len();
-        let chunk_size = size_mb * 1024 * 1024; // Convert MB to bytes
+        let chunk_size = (size_mb * 1024.0 * 1024.0) as u64; // Convert MB to bytes
         
         if file_size == 0 {
             return Err(ChunkError::InvalidInput("Empty file"));

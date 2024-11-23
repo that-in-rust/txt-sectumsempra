@@ -8,14 +8,19 @@ struct Args {
     #[arg(value_name = "FILE")]
     input: PathBuf,
 
-    /// Size of each chunk in MB (minimum 1)
-    #[arg(short, long, default_value_t = 1, value_parser = clap::value_parser!(u64).range(1..))]
-    size: u64,
+    /// Size of each chunk in MB (minimum 0.1)
+    #[arg(short, long, default_value_t = 1.0)]
+    size: f64,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
     
+    if args.size < 0.1 {
+        eprintln!("Error: Chunk size must be at least 0.1 MB");
+        std::process::exit(1);
+    }
+
     if !args.input.exists() {
         eprintln!("Error: Input file does not exist");
         std::process::exit(1);
